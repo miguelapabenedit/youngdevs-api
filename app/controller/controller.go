@@ -44,21 +44,21 @@ func (c *controllers) CreateUserHandler(w http.ResponseWriter, r *http.Request) 
 	user := &entity.User{}
 	bodyContent, err := ioutil.ReadAll(r.Body)
 
-	if len(bodyContent) == 0 {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	err = json.Unmarshal(bodyContent, user)
-	fmt.Println(user)
+
 	if err != nil {
 		fmt.Print(err)
 		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	if user.ID == "" {
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
