@@ -28,6 +28,8 @@ func NewController(service service.Service) Controllers {
 
 func (c *controllers) HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 	msg, err := json.Marshal("Im alive Belen")
 
 	if err != nil {
@@ -40,6 +42,8 @@ func (c *controllers) HealthCheckHandler(w http.ResponseWriter, r *http.Request)
 
 func (c *controllers) GetUserHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 	id := r.URL.Query().Get("id")
 	if len(id) < 1 {
 		http.Error(w, "Debe enviar id", http.StatusBadRequest)
@@ -59,6 +63,9 @@ func (c *controllers) GetUserHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *controllers) CreateUserHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 	user := &entity.User{}
 	bodyContent, err := ioutil.ReadAll(r.Body)
 
