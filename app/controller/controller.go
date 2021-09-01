@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github/miguelapabenedit/youngdevs-api/app/entity"
+	"github/miguelapabenedit/youngdevs-api/app/repository"
 	"github/miguelapabenedit/youngdevs-api/app/service"
 	"io/ioutil"
 	"net/http"
@@ -37,7 +38,23 @@ func (c *controllers) HealthCheckHandler(w http.ResponseWriter, r *http.Request)
 }
 
 func (c *controllers) GetUserHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
+
+	id := r.URL.Query().Get("id")
+	if len(id) < 1 {
+		http.Error(w, "Debe enviar id", http.StatusBadRequest)
+		return
+	}
+
+	user := repository.GetUser(id)
+	msg, err := json.Marshal(user)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusAccepted)
+	w.Write(msg)
 }
 
 func (c *controllers) CreateUserHandler(w http.ResponseWriter, r *http.Request) {
