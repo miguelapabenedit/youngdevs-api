@@ -27,6 +27,7 @@ func NewController(service service.Service) Controllers {
 }
 
 func (c *controllers) HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	msg, err := json.Marshal("Im alive Belen")
 
 	if err != nil {
@@ -38,7 +39,7 @@ func (c *controllers) HealthCheckHandler(w http.ResponseWriter, r *http.Request)
 }
 
 func (c *controllers) GetUserHandler(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	id := r.URL.Query().Get("id")
 	if len(id) < 1 {
 		http.Error(w, "Debe enviar id", http.StatusBadRequest)
