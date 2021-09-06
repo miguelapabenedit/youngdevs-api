@@ -15,8 +15,8 @@ var serv service.Service = service.NewServices(rep)
 var controllers controller.Controllers = controller.NewController(serv)
 
 func SetUpPublicRoutes(rootPath string, r *mux.Router) {
-	r.HandleFunc(fmt.Sprintf("%s/user", rootPath), controllers.CreateUserHandler).Methods(http.MethodPost, http.MethodHead)
-	r.HandleFunc(fmt.Sprintf("%s/user", rootPath), controllers.GetUserHandler).Methods(http.MethodGet, http.MethodHead)
+	r.HandleFunc(fmt.Sprintf("%s/user", rootPath), controllers.CreateUserHandler).Methods(http.MethodPost, http.MethodOptions)
+	r.HandleFunc(fmt.Sprintf("%s/user", rootPath), controllers.GetUserHandler).Methods(http.MethodGet, http.MethodOptions)
 
 	r.HandleFunc(fmt.Sprintf("%s/healthCheck", rootPath), controllers.HealthCheckHandler).Methods(http.MethodGet)
 }
