@@ -5,11 +5,16 @@ import (
 	"github/miguelapabenedit/youngdevs-api/app"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 )
 
 const apiRootPath string = "/api"
+
+var (
+	port string = os.Getenv("PORT")
+)
 
 func main() {
 
@@ -18,5 +23,5 @@ func main() {
 
 	app.SetUpPublicRoutes(apiRootPath, r)
 	// start the server in a go function with an escape logic
-	log.Fatalln(http.ListenAndServe(":3000", r))
+	log.Fatalln(http.ListenAndServe(":"+port, r))
 }
