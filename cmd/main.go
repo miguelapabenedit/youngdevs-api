@@ -24,11 +24,10 @@ func main() {
 
 	app.SetUpPublicRoutes(apiRootPath, r)
 
-	handler := handlers.CORS(
-		handlers.AllowedMethods([]string{"GET", "POST", "PUT"}),
-		handlers.AllowedHeaders([]string{"Accept", "Accept-Language", "Content-Type", "Content-Language", "Origin"}),
-		handlers.AllowedOrigins([]string{"*"}),
+	ch := handlers.CORS(
+		handlers.AllowedOrigins([]string{"https://youngdevs-e5ff0.web.app/"}),
 	)(r)
+
 	// start the server in a go function with an escape logic
-	log.Fatalln(http.ListenAndServe(":"+port, handler))
+	log.Fatalln(http.ListenAndServe(":"+port, ch))
 }
