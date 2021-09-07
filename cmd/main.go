@@ -27,7 +27,8 @@ func main() {
 	app.SetUpPublicRoutes(apiRootPath, r)
 
 	ch := gohandlers.CORS(
-		gohandlers.AllowedOrigins([]string{"https://youngdevs-e5ff0.web.app"}),
+		gohandlers.AllowedOrigins([]string{"*"}),
+		gohandlers.AllowedMethods([]string{"POST, GET, OPTIONS, PUT, DELETE"}),
 	)
 
 	s := &http.Server{
