@@ -33,7 +33,7 @@ func main() {
 	)
 
 	s := &http.Server{
-		Addr:         ":" + "9000",
+		Addr:         ":" + port,
 		Handler:      ch(r),
 		IdleTimeout:  5 * time.Second,
 		ReadTimeout:  10 * time.Second,
