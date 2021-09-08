@@ -28,7 +28,7 @@ func main() {
 
 	ch := gohandlers.CORS(
 		gohandlers.AllowedOrigins([]string{"*"}),
-		gohandlers.AllowedMethods([]string{"POST, GET, OPTIONS, PUT, DELETE"}),
+		gohandlers.AllowedMethods([]string{"POST", "GET", "OPTIONS", "PUT", "DELETE"}),
 	)
 
 	s := &http.Server{
