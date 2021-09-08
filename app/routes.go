@@ -2,21 +2,16 @@ package app
 
 import (
 	"fmt"
-	"github/miguelapabenedit/youngdevs-api/app/controller"
-	"github/miguelapabenedit/youngdevs-api/app/repository"
-	"github/miguelapabenedit/youngdevs-api/app/service"
+	"github/miguelapabenedit/youngdevs-api/app/handlers"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
 )
 
-var rep repository.Repository = repository.NewRepository()
-var serv service.Service = service.NewServices(rep)
-var controllers controller.Controllers = controller.NewController(serv)
+func SetUpPublicRoutes(rootPath string, r *mux.Router, l *log.Logger) {
+	r.HandleFunc(fmt.Sprintf("%s/user", rootPath), handlers.CreateUser).Methods(http.MethodPost)
+	r.HandleFunc(fmt.Sprintf("%s/user", rootPath), handlers.GetUser).Methods(http.MethodGet)
 
-func SetUpPublicRoutes(rootPath string, r *mux.Router) {
-	r.HandleFunc(fmt.Sprintf("%s/user", rootPath), controllers.CreateUserHandler).Methods(http.MethodPost, http.MethodOptions)
-	r.HandleFunc(fmt.Sprintf("%s/user", rootPath), controllers.GetUserHandler).Methods(http.MethodGet, http.MethodOptions)
-
-	r.HandleFunc(fmt.Sprintf("%s/healthCheck", rootPath), controllers.HealthCheckHandler).Methods(http.MethodGet)
+	r.HandleFunc(fmt.Sprintf("%s/healthCheck", rootPath), handlers.HealthCheck).Methods(http.MethodGet)
 }
