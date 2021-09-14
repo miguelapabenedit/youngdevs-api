@@ -24,11 +24,11 @@ func main() {
 	l := log.New(os.Stdout, "youngdevs-api: ", log.LstdFlags)
 	r := mux.NewRouter()
 
-	app.SetUpPublicRoutes(apiRootPath, r)
+	app.SetUpPublicRoutes(apiRootPath, r, l)
 
 	ch := gohandlers.CORS(
 		gohandlers.AllowedOrigins([]string{"*"}),
-		gohandlers.AllowedMethods([]string{"POST, GET, OPTIONS, PUT, DELETE"}),
+		gohandlers.AllowedMethods([]string{"POST", "GET", "OPTIONS", "PUT", "DELETE"}),
 	)
 
 	s := &http.Server{
@@ -38,6 +38,7 @@ func main() {
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 120 * time.Second,
 	}
+
 	// start the server in a go function with an escape logic
 	go func() {
 		l.Println("Starting server on port" + port)
