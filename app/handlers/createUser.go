@@ -4,16 +4,23 @@ import (
 	"encoding/json"
 	"fmt"
 	"github/miguelapabenedit/youngdevs-api/app/data"
-	"github/miguelapabenedit/youngdevs-api/app/infrastructure"
+	"github/miguelapabenedit/youngdevs-api/app/repository"
 	"io/ioutil"
 	"net/http"
 )
 
+var rep repository.CreateUser
+
+func NewCreateUser(createUserRepository repository.CreateUser) {
+	rep = createUserRepository
+}
+
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	user := &data.User{}
 	bodyContent, err := ioutil.ReadAll(r.Body)
-
+	fmt.Println("cregin user", bodyContent)
 	if err != nil {
+		fmt.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -26,14 +33,15 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if user.ID == "" {
+	if user.Email == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	err = infrastructure.CreateUser(user)
+	err = rep.CreateUser(user)
 
 	if err != nil {
+		fmt.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}

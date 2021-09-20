@@ -2,18 +2,25 @@ package handlers
 
 import (
 	"encoding/json"
-	"github/miguelapabenedit/youngdevs-api/app/infrastructure"
+	"github/miguelapabenedit/youngdevs-api/app/repository"
 	"net/http"
 )
 
+var getUserRepository repository.GetUser
+
+func NewGetUser(userRepository repository.GetUser) {
+	getUserRepository = userRepository
+}
+
 func GetUser(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
+
 	if len(id) < 1 {
 		http.Error(w, "Debe enviar id", http.StatusBadRequest)
 		return
 	}
 
-	user := infrastructure.GetUser(id)
+	user := getUserRepository.GetUser(id)
 	msg, err := json.Marshal(user)
 
 	if err != nil {
