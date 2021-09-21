@@ -1,0 +1,33 @@
+version: "3.4"
+
+services:
+  postgre_server_db:
+    image: postgres
+    container_name: postgre_server_db
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "youngdevs"
+      POSTGRES_PASSWORD: "youngdevs"
+      POSTGRES_DB: "youngdevs"
+  youngdevs_api:
+    image: youngdevs-api
+    container_name: youngdevs-api
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8080:3030
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: "./serviceAccountKey.json"
+      DB_SERVER: "postgre_server_db"
+      DB_PORT: 5432
+      DB_PASS: "youngdevs"
+      DB_USER: "youngdevs"
+      DB_NAME: "youngdevs"
+      ENV: "DEV"
+volumes:
+  db_volume:
