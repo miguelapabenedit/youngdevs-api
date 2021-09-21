@@ -15,7 +15,6 @@ var (
 )
 
 func main() {
-
 	l := log.New(os.Stdout, "youngdevs-api: ", log.LstdFlags)
 	r := mux.NewRouter()
 

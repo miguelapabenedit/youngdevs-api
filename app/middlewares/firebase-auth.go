@@ -17,9 +17,11 @@ func AuthHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		ctx := context.Background()
 		fbapp, err := firebase.NewApp(ctx, nil)
+
 		if err != nil {
 			log.Fatalf("error initializing app: %v\n", err)
 		}
+
 		client, err := fbapp.Auth(ctx)
 		if err != nil {
 			log.Fatalf("error getting Auth client: %v\n", err)
