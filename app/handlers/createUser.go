@@ -18,13 +18,13 @@ func NewCreateUser(createUserRepository repository.CreateUser) {
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	user := &data.User{}
 	bodyContent, err := ioutil.ReadAll(r.Body)
-	fmt.Println("cregin user", bodyContent)
+
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-
+	
 	err = json.Unmarshal(bodyContent, user)
 
 	if err != nil {

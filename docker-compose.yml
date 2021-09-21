@@ -28,5 +28,6 @@ services:
       DB_PASS: "youngdevs"
       DB_USER: "youngdevs"
       DB_NAME: "youngdevs"
+      ENV: "DEV"
 volumes:
   db_volume:

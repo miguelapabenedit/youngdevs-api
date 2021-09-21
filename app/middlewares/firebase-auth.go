@@ -5,9 +5,13 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
+	"strings"
 
 	firebase "firebase.google.com/go"
 )
+
+var env = os.Getenv("ENV")
 
 func AuthHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
@@ -21,15 +25,29 @@ func AuthHandler(next http.Handler) http.Handler {
 			log.Fatalf("error getting Auth client: %v\n", err)
 		}
 
-		idtoken := r.Header.Get("Authorization")
-		fmt.Println(idtoken)
+		reqToken := r.Header.Get("Authorization")
+		splitToken := strings.Split(reqToken, "Bearer ")
 
-		token, err := client.VerifyIDToken(ctx, idtoken)
-		if err != nil {
-			fmt.Printf("error verifying ID token: %v\n", err)
+		if env != "DEV" {
+
+			if len(splitToken) != 2 || splitToken[1] == "" {
+				fmt.Println("No autherization token provided")
+				rw.WriteHeader(http.StatusUnauthorized)
+				return
+			}
+
+			token, err := client.VerifyIDToken(ctx, splitToken[1])
+			if err != nil {
+				fmt.Printf("error verifying ID token: %v\n", err)
+				rw.WriteHeader(http.StatusUnauthorized)
+				return
+			}
+
+			fmt.Println(token)
+		} else {
+			fmt.Println("Recieved token:", splitToken)
 		}
 
-		fmt.Println(token)
 		next.ServeHTTP(rw, r)
 	})
 }
