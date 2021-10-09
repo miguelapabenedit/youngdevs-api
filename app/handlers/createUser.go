@@ -9,10 +9,10 @@ import (
 	"net/http"
 )
 
-var rep repository.CreateUser
+var createRepository repository.CreateUser
 
 func NewCreateUser(createUserRepository repository.CreateUser) {
-	rep = createUserRepository
+	createRepository = createUserRepository
 }
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
@@ -24,7 +24,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	
+
 	err = json.Unmarshal(bodyContent, user)
 
 	if err != nil {
@@ -38,7 +38,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = rep.CreateUser(user)
+	err = createRepository.Create(user)
 
 	if err != nil {
 		fmt.Println(err)
