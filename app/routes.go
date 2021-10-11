@@ -11,11 +11,19 @@ import (
 )
 
 func SetUpPublicRoutes(rootPath string, r *mux.Router, l *log.Logger) {
-	rep := infrastructure.NewPostgreSQL()
-	handlers.NewCreateUser(rep)
-	handlers.NewGetUser(rep)
+	infrastructure.NewPostgreSQL()
+	userRep := infrastructure.NewUserRepository()
+	levelRep := infrastructure.NewLevelRepository()
+
+	handlers.NewCreateUser(userRep)
+	handlers.NewGetUser(userRep)
+
+	handlers.NewGetLevel(levelRep)
 
 	r.HandleFunc(fmt.Sprintf("%s/user", rootPath), handlers.CreateUser).Methods(http.MethodPost)
 	r.HandleFunc(fmt.Sprintf("%s/user", rootPath), handlers.GetUser).Methods(http.MethodGet)
+
+	r.HandleFunc(fmt.Sprintf("%s/level", rootPath), handlers.GetLevel).Methods(http.MethodGet)
+
 	r.HandleFunc(fmt.Sprintf("%s/healthCheck", rootPath), handlers.HealthCheck).Methods(http.MethodGet)
 }

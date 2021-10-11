@@ -4,5 +4,9 @@ import "gorm.io/gorm"
 
 type User struct {
 	gorm.Model
-	Email string
+	AuthProviderUserId string
+	Email              string
+	IsPremium          bool
+	IsLocked           bool
+	IsAdmin            bool
 }

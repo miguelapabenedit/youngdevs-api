@@ -31,7 +31,6 @@ func AuthHandler(next http.Handler) http.Handler {
 		splitToken := strings.Split(reqToken, "Bearer ")
 
 		if env != "DEV" {
-
 			if len(splitToken) != 2 || splitToken[1] == "" {
 				fmt.Println("No autherization token provided")
 				rw.WriteHeader(http.StatusUnauthorized)
@@ -45,7 +44,9 @@ func AuthHandler(next http.Handler) http.Handler {
 				return
 			}
 
-			fmt.Println(token)
+			r.Header.Set("AuthProviderUserID", token.UID)
+			r.Header.Set("Email", fmt.Sprintf("%v", token.Claims["email"]))
+
 		} else {
 			fmt.Println("Recieved token:", splitToken)
 		}

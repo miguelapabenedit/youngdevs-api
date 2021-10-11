@@ -11,10 +11,14 @@ import (
 
 type mockRepo struct{}
 
-func (m *mockRepo) GetUser(id string) *data.User {
+func (m *mockRepo) Get(id string) *data.User {
 	user := data.User{Email: id + "@youngdevs.com"}
 	user.ID = 1
 	return &user
+}
+func (m *mockRepo) Create(u *data.User) error {
+
+	return nil
 }
 
 func TestGetUser(t *testing.T) {

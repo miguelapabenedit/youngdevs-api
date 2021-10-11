@@ -7,13 +7,10 @@ import (
 	"time"
 
 	"github/miguelapabenedit/youngdevs-api/app/data"
-	"github/miguelapabenedit/youngdevs-api/app/repository"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
-
-type repo struct{}
 
 var db *gorm.DB
 
@@ -27,12 +24,16 @@ var (
 	maxRetryAttemps = 3
 )
 
-func NewPostgreSQL() repository.User {
+func NewPostgreSQL() *gorm.DB {
 	fmt.Println("Starting connection")
 	db = openConnection()
+
 	fmt.Println("Start DB Migration...")
-	db.AutoMigrate(&data.User{})
-	return &repo{}
+	migrate()
+	fmt.Println("Start DB Seed...")
+	seed()
+
+	return db
 }
 
 func openConnection() *gorm.DB {
@@ -47,6 +48,24 @@ func openConnection() *gorm.DB {
 	return db
 }
 
+func migrate() {
+	db.AutoMigrate(&data.User{})
+	db.AutoMigrate(&data.Level{})
+}
+
+func seed() {
+	lvl1 := data.Level{
+		Name:              "First Level",
+		Level:             1,
+		NumberOfColumns:   5,
+		NumberOfRows:      5,
+		AvailableCommands: 001111,
+		IsPremium:         false,
+		Map:               "[10000][00000][00000][00000][00000]",
+	}
+	db.Create(&lvl1)
+}
+
 func retryConnection() {
 	if retryAttemps >= maxRetryAttemps {
 		panic("Retry connection attempts exceded the max stablished")
@@ -58,20 +77,4 @@ func retryConnection() {
 		openConnection()
 	})
 
-}
-
-func (r *repo) CreateUser(u *data.User) error {
-	return db.Create(u).Error
-}
-
-func (r *repo) GetUser(id string) *data.User {
-	var user data.User
-
-	result := db.First(&user)
-
-	if result.Error != nil {
-		fmt.Println("An error has ocurred")
-	}
-
-	return &user
 }
