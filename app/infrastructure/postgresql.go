@@ -61,8 +61,6 @@ func seed() {
 		NumberOfRows:      5,
 		AvailableCommands: 001111,
 		IsPremium:         false,
-		BestSolution:      8,
-		BestTime:          30,
 		Map:               "[10000][00000][00000][00000][00000]",
 	}
 	db.Create(&lvl1)

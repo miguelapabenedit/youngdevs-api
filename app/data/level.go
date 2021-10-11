@@ -1,6 +1,8 @@
 package data
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
 type Level struct {
 	gorm.Model
@@ -11,6 +13,6 @@ type Level struct {
 	NumberOfRows      uint
 	AvailableCommands uint
 	IsPremium         bool
-	BestSolution      int
-	BestTime          int
+	bestSolution      int
+	bestTime          int
 }
