@@ -31,6 +31,10 @@ func (r *userRepo) Create(u *data.User) error {
 	return db.Create(&u).Error
 }
 
+func (r *userRepo) Update(u *data.User) error {
+	return db.Save(&u).Error
+}
+
 func (r *userRepo) Get(id string) *data.User {
 	var user data.User
 
@@ -41,4 +45,12 @@ func (r *userRepo) Get(id string) *data.User {
 	}
 
 	return &user
+}
+
+func (r *userRepo) GetAllWithPagination(up *data.UsersPaginated) {
+	result := db.Limit(up.PageSize).Offset(up.PageIndex * up.PageSize).Find(&up.Users).Count(&up.TotalCount)
+
+	if result.Error != nil {
+		fmt.Println("An error has ocurred")
+	}
 }

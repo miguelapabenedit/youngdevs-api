@@ -10,3 +10,10 @@ type User struct {
 	IsLocked           bool
 	IsAdmin            bool
 }
+
+type UsersPaginated struct {
+	TotalCount int64
+	PageSize   int
+	PageIndex  int
+	Users      []User
+}

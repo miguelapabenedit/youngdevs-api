@@ -59,7 +59,7 @@ func seed() {
 		Level:             1,
 		NumberOfColumns:   5,
 		NumberOfRows:      5,
-		AvailableCommands: 001111,
+		AvailableCommands: 1111,
 		IsPremium:         false,
 		Map:               "[10000][00000][00000][00000][00000]",
 	}
