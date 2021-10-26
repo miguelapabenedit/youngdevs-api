@@ -18,9 +18,14 @@ type GetAllUsers interface {
 	GetAllWithPagination(users *data.UsersPaginated)
 }
 
+type GetRanking interface {
+	GetRanking(u *[]data.User)
+}
+
 type User interface {
 	CreateUser
 	GetUser
 	GetAllUsers
 	UpdateUser
+	GetRanking
 }

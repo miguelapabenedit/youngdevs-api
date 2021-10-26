@@ -9,6 +9,7 @@ type User struct {
 	IsPremium          bool
 	IsLocked           bool
 	IsAdmin            bool
+	Score              int
 }
 
 type UsersPaginated struct {

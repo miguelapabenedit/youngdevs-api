@@ -54,3 +54,11 @@ func (r *userRepo) GetAllWithPagination(up *data.UsersPaginated) {
 		fmt.Println("An error has ocurred")
 	}
 }
+
+func (r *userRepo) GetRanking(u *[]data.User) {
+	result := db.Order("score DESC").Limit(4).Find(&u)
+
+	if result.Error != nil {
+		fmt.Println("An error has ocurred")
+	}
+}
