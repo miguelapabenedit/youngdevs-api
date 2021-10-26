@@ -11,7 +11,7 @@ type Level struct {
 	Map               string
 	NumberOfColumns   uint
 	NumberOfRows      uint
-	AvailableCommands uint
+	AvailableCommands string
 	IsPremium         bool
 	bestSolution      int
 	bestTime          int

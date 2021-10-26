@@ -51,6 +51,7 @@ func openConnection() *gorm.DB {
 func migrate() {
 	db.AutoMigrate(&data.User{})
 	db.AutoMigrate(&data.Level{})
+	db.AutoMigrate(&data.UserLevelState{})
 }
 
 func seed() {
@@ -59,11 +60,32 @@ func seed() {
 		Level:             1,
 		NumberOfColumns:   5,
 		NumberOfRows:      5,
-		AvailableCommands: 001111,
+		AvailableCommands: "[1]",
 		IsPremium:         false,
-		Map:               "[10000][00000][00000][00000][00000]",
+		Map:               "[[1,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]",
 	}
+	lvl2 := data.Level{
+		Name:              "Second Level",
+		Level:             1,
+		NumberOfColumns:   5,
+		NumberOfRows:      5,
+		AvailableCommands: "[1]",
+		IsPremium:         false,
+		Map:               "[[1,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]",
+	}
+	lvl3 := data.Level{
+		Name:              "Tirth Level",
+		Level:             3,
+		NumberOfColumns:   10,
+		NumberOfRows:      10,
+		AvailableCommands: "[2]",
+		IsPremium:         false,
+		Map:               "[[1,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]",
+	}
+
 	db.Create(&lvl1)
+	db.Create(&lvl2)
+	db.Create(&lvl3)
 }
 
 func retryConnection() {
