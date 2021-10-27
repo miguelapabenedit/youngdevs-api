@@ -20,7 +20,7 @@ func GetRanking(w http.ResponseWriter, r *http.Request) {
 
 	ur := []data.Ranking{}
 	for _, u := range u {
-		ur = append(ur, data.Ranking{Name: strings.TrimRight(u.Email, "@"), Score: u.Score})
+		ur = append(ur, data.Ranking{ID: u.ID, Name: strings.Split(u.Email, "@")[0], Score: u.Score})
 	}
 
 	msg, err := json.Marshal(&ur)

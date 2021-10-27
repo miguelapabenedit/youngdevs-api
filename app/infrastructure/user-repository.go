@@ -56,7 +56,7 @@ func (r *userRepo) GetAllWithPagination(up *data.UsersPaginated) {
 }
 
 func (r *userRepo) GetRanking(u *[]data.User) {
-	result := db.Order("score DESC").Limit(4).Find(&u)
+	result := db.Order("score DESC").Limit(5).Find(&u)
 
 	if result.Error != nil {
 		fmt.Println("An error has ocurred")
