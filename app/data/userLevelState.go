@@ -6,4 +6,5 @@ type UserLevelState struct {
 	Time         int
 	UserSolution string
 	IsSolved     bool
+	Score        int
 }
