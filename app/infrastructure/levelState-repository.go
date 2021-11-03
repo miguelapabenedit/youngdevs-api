@@ -40,6 +40,14 @@ func (r *userLevelStateRepo) GetAllUserLevelState(userId int) []data.UserLevelSt
 }
 
 func (r *userLevelStateRepo) UpdateLevelState(u *data.UserLevelState) error {
+	if !u.IsSolved {
+		var uls data.UserLevelState
+
+		db.Where("user_id = ? and level_id = ?", u.UserID, u.LevelID).First(&uls)
+
+		u.IsSolved = uls.IsSolved
+	}
+
 	return db.Save(&u).Error
 }
 
