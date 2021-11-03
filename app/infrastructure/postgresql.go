@@ -60,16 +60,16 @@ func seed() {
 		Level:             1,
 		NumberOfColumns:   5,
 		NumberOfRows:      5,
-		AvailableCommands: "[1]",
+		AvailableCommands: "[0,1,2,3]",
 		IsPremium:         false,
-		Map:               "[[1,0,2,0,0],[0,0,2,0,0],[2,0,0,3,0],[0,0,2,0,0],[0,0,2,0,0]]",
+		Map:               "[[1,0,2,0,0],[0,0,2,0,0],[0,0,0,3,0],[0,0,2,0,0],[0,0,2,0,0]]",
 	}
 	lvl2 := data.Level{
 		Name:              "Second Level",
-		Level:             1,
+		Level:             2,
 		NumberOfColumns:   5,
 		NumberOfRows:      5,
-		AvailableCommands: "[1]",
+		AvailableCommands: "[0,1,2,3,4,6,7]",
 		IsPremium:         false,
 		Map:               "[[1,0,2,0,0],[0,0,0,0,0],[2,0,0,3,0],[0,0,2,0,0],[0,0,0,0,0]]",
 	}
@@ -78,9 +78,9 @@ func seed() {
 		Level:             3,
 		NumberOfColumns:   10,
 		NumberOfRows:      10,
-		AvailableCommands: "[2]",
+		AvailableCommands: "[0,1,2,3,4,5,6,7]",
 		IsPremium:         false,
-		Map:               "[[1,0,2,0,0],[0,0,0,0,0],[2,0,0,3,0],[0,0,2,0,0],[0,0,0,0,0]]",
+		Map:               "[[1,0,0,0,0],[0,0,0,0,0],[0,0,0,3,0],[0,0,0,0,0],[0,0,0,0,0]]",
 	}
 
 	db.Create(&lvl1)
