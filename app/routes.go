@@ -23,6 +23,7 @@ func SetUpPublicRoutes(rootPath string, r *mux.Router, l *log.Logger) {
 	handlers.NewGetRanking(userRep)
 	handlers.NewGetLevelState(levelStateRepo)
 	handlers.NewUpdateLevelState(levelStateRepo)
+	handlers.NewGetAllLevelState(levelStateRepo)
 
 	handlers.NewGetLevel(levelRep)
 
@@ -35,6 +36,7 @@ func SetUpPublicRoutes(rootPath string, r *mux.Router, l *log.Logger) {
 	r.HandleFunc(fmt.Sprintf("%s/level", rootPath), handlers.GetLevel).Methods(http.MethodGet)
 
 	r.HandleFunc(fmt.Sprintf("%s/level/state/{level}", rootPath), handlers.GetLevelState).Methods(http.MethodGet)
+	r.HandleFunc(fmt.Sprintf("%s/level/state/all", rootPath), handlers.GetAllLevelState).Methods(http.MethodGet)
 	r.HandleFunc(fmt.Sprintf("%s/level/state", rootPath), handlers.UpdateLevelState).Methods(http.MethodPut)
 
 	r.HandleFunc(fmt.Sprintf("%s/healthCheck", rootPath), handlers.HealthCheck).Methods(http.MethodGet)

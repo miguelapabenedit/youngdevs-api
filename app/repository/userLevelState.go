@@ -14,8 +14,13 @@ type UpdateUserLevelState interface {
 	UpdateLevelState(u *data.UserLevelState) error
 }
 
+type GetAllUserLevelState interface {
+	GetAllUserLevelState(userId int) []data.UserLevelState
+}
+
 type UserLevelState interface {
 	GetUserLevelState
+	GetAllUserLevelState
 	CreateUserLevelState
 	UpdateUserLevelState
 }

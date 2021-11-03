@@ -31,6 +31,14 @@ func (r *userLevelStateRepo) CreateLevelState(u *data.UserLevelState) error {
 	return db.Create(&u).Error
 }
 
+func (r *userLevelStateRepo) GetAllUserLevelState(userId int) []data.UserLevelState {
+	var uls []data.UserLevelState
+
+	db.Where("user_id = ?", userId).Find(&uls)
+
+	return uls
+}
+
 func (r *userLevelStateRepo) UpdateLevelState(u *data.UserLevelState) error {
 	return db.Save(&u).Error
 }
