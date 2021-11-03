@@ -23,3 +23,15 @@ func (r *levelRepo) GetLevel(id int) *data.Level {
 
 	return &level
 }
+
+func (r *levelRepo) GetAllLevels() *[]data.Level {
+	var level []data.Level
+
+	result := db.Limit(3).Find(&level)
+
+	if result.Error != nil {
+		fmt.Println("An error has ocurred")
+	}
+
+	return &level
+}

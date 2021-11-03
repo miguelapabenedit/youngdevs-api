@@ -79,7 +79,7 @@ func seed() {
 		NumberOfColumns:   5,
 		NumberOfRows:      5,
 		AvailableCommands: "[2]",
-		IsPremium:         false,
+		IsPremium:         true,
 		Map:               "[[1,0,0,0,0],[0,0,0,0,0],[0,0,0,3,0],[0,0,0,0,0],[0,0,0,0,0]]",
 	}
 
