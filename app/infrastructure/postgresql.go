@@ -66,7 +66,7 @@ func seed() {
 	}
 	lvl2 := data.Level{
 		Name:              "Second Level",
-		Level:             1,
+		Level:             2,
 		NumberOfColumns:   5,
 		NumberOfRows:      5,
 		AvailableCommands: "[1]",
@@ -76,8 +76,8 @@ func seed() {
 	lvl3 := data.Level{
 		Name:              "Tirth Level",
 		Level:             3,
-		NumberOfColumns:   10,
-		NumberOfRows:      10,
+		NumberOfColumns:   5,
+		NumberOfRows:      5,
 		AvailableCommands: "[2]",
 		IsPremium:         false,
 		Map:               "[[1,0,2,0,0],[0,0,0,0,0],[2,0,0,3,0],[0,0,2,0,0],[0,0,0,0,0]]",

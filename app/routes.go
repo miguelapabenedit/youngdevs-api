@@ -14,12 +14,15 @@ func SetUpPublicRoutes(rootPath string, r *mux.Router, l *log.Logger) {
 	infrastructure.NewPostgreSQL()
 	userRep := infrastructure.NewUserRepository()
 	levelRep := infrastructure.NewLevelRepository()
+	levelStateRepo := infrastructure.NewLevelStateRepository()
 
 	handlers.NewCreateUser(userRep)
 	handlers.NewGetAllUsers(userRep)
 	handlers.NewGetUser(userRep)
 	handlers.NewUpdateUser(userRep)
 	handlers.NewGetRanking(userRep)
+	handlers.NewGetLevelState(levelStateRepo)
+	handlers.NewUpdateLevelState(levelStateRepo)
 
 	handlers.NewGetLevel(levelRep)
 
@@ -30,6 +33,9 @@ func SetUpPublicRoutes(rootPath string, r *mux.Router, l *log.Logger) {
 	r.HandleFunc(fmt.Sprintf("%s/users/ranking", rootPath), handlers.GetRanking).Methods(http.MethodGet)
 
 	r.HandleFunc(fmt.Sprintf("%s/level", rootPath), handlers.GetLevel).Methods(http.MethodGet)
+
+	r.HandleFunc(fmt.Sprintf("%s/level/state/{level}", rootPath), handlers.GetLevelState).Methods(http.MethodGet)
+	r.HandleFunc(fmt.Sprintf("%s/level/state", rootPath), handlers.UpdateLevelState).Methods(http.MethodPut)
 
 	r.HandleFunc(fmt.Sprintf("%s/healthCheck", rootPath), handlers.HealthCheck).Methods(http.MethodGet)
 }
