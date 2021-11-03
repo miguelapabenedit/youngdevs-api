@@ -44,9 +44,7 @@ func (r *userLevelStateRepo) UpdateLevelState(u *data.UserLevelState) error {
 }
 
 func (r *userLevelStateRepo) GetLevelState(u *data.UserLevelState) error {
-	var uls data.UserLevelState
-
-	result := db.Where("user_id = ? and level_id = ?", u.UserID, u.LevelID).First(&uls)
+	result := db.Where("user_id = ? and level_id = ?", u.UserID, u.LevelID).First(&u)
 
 	if result.Error != nil {
 		fmt.Println("An error has ocurred")

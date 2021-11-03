@@ -33,6 +33,11 @@ func UpdateLevelState(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	authUserId := r.Header.Get("AuthProviderUserId")
+	user := userRepository.Get(authUserId)
+
+	uls.UserID = user.ID
+
 	if uls.UserID == 0 || uls.LevelID == 0 {
 		w.WriteHeader(http.StatusBadRequest)
 		return
