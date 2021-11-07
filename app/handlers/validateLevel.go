@@ -37,7 +37,7 @@ func ValidateLevel(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// hardcodeamos la solucion normal
-	uls.UserSolution = `[{"id":2,"display":"RIGHT","type":0},{"id":1,"display":"DOWN","type":0},{"id":1,"display":"DOWN","type":0},{"id":2,"display":"RIGHT","type":0},{"id":2,"display":"RIGHT","type":0}]`
+	uls.UserSolution = `[{"id":5,"display":"WHILE DO","type":1,"condition":{"id":7,"display":"EMPTY CELL","type":2,"cellID":0},"action":{"id":2,"display":"RIGHT","type":0}}]`
 	level := levelRepo.GetLevel(int(uls.LevelID))
 
 	commands := []data.Command{}
@@ -64,23 +64,52 @@ func ValidateLevel(w http.ResponseWriter, r *http.Request) {
 
 }
 
+type PlayerPosition struct {
+	X int
+	Y int
+}
+
 func isValidSolution(lvlMap [][]int, solution []data.Command) bool {
-	posX, posY := 0, 0
+	ps := PlayerPosition{0, 0}
 	for _, v := range solution {
-		if v.Type == enums.MOVEMENT {
-			m := data.Move{}
-			getMovement(v.ID, &m)
-			if canMove(posX, posY, m, lvlMap) && lvlMap[posY+m.Y][posX+m.X] != 2 {
-				posX += m.X
-				posY += m.Y
-				if lvlMap[posY][posX] == 3 {
-					return true
+		m := data.Move{}
+		getMovement(v.ID, &m)
+		switch v.Type {
+		case enums.MOVEMENT:
+			move(&ps, m, lvlMap)
+		case enums.OPERATION:
+			switch v.ID {
+			case enums.IF_DO:
+				if lvlMap[ps.Y][ps.X] == v.Condition.Cell {
+					m := data.Move{}
+					getMovement(v.Action.ID, &m)
+					move(&ps, m, lvlMap)
+				}
+			case enums.WHILE_DO:
+				m := data.Move{}
+				getMovement(v.Action.ID, &m)
+				for {
+					move(&ps, m, lvlMap)
+					if !canMove(ps.X, ps.Y, m, lvlMap) || lvlMap[ps.Y][ps.X] != v.Condition.Cell {
+						break
+					}
 				}
 			}
+		}
+
+		if lvlMap[ps.Y][ps.X] == 3 {
+			return true
 		}
 	}
 
 	return false
+}
+
+func move(ps *PlayerPosition, m data.Move, lvlMap [][]int) {
+	if canMove(ps.X, ps.Y, m, lvlMap) && lvlMap[ps.Y+m.Y][ps.X+m.X] != 2 {
+		ps.X += m.X
+		ps.Y += m.Y
+	}
 }
 
 func getScore(lvl *data.Level, time int, commands []data.Command) int {
