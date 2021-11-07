@@ -13,6 +13,8 @@ type Level struct {
 	NumberOfRows      uint
 	AvailableCommands string
 	IsPremium         bool
-	bestSolution      int
-	bestTime          int
+	BestSolution      int
+	BestTimeA         int
+	BestTimeB         int
+	BestTimeC         int
 }

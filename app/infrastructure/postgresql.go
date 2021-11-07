@@ -62,6 +62,10 @@ func seed() {
 		NumberOfRows:      5,
 		AvailableCommands: "[0,1,2,3]",
 		IsPremium:         false,
+		BestSolution:      5,
+		BestTimeA:         6,
+		BestTimeB:         15,
+		BestTimeC:         30,
 		Map:               "[[1,0,2,0,0],[0,0,2,0,0],[0,0,0,3,0],[0,0,2,0,0],[0,0,2,0,0]]",
 	}
 	lvl2 := data.Level{
