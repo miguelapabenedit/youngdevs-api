@@ -36,8 +36,7 @@ func ValidateLevel(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	// hardcodeamos la solucion normal
-	uls.UserSolution = `[{"id":5,"display":"WHILE DO","type":1,"condition":{"id":7,"display":"EMPTY CELL","type":2,"cellID":0},"action":{"id":2,"display":"RIGHT","type":0}}]`
+
 	level := levelRepo.GetLevel(int(uls.LevelID))
 
 	commands := []data.Command{}
@@ -55,13 +54,21 @@ func ValidateLevel(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+
 	if uls.IsSolved = isValidSolution(lvlMap, commands); uls.IsSolved {
 		uls.Score = getScore(level, uls.Time, commands)
 		levelStateRepo.UpdateLevelState(uls)
-	} else {
-		fmt.Println("level is invalid")
 	}
 
+	msg, err := json.Marshal(uls)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusAccepted)
+	w.Write(msg)
 }
 
 type PlayerPosition struct {
