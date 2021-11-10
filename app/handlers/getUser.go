@@ -28,6 +28,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	if user.ID == 0 {
 		user.AuthProviderUserId = authUserId
 		user.Email = email
+		user.CurrentLevel = 1
 		err := userRepository.Create(user)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)

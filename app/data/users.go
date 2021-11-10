@@ -10,6 +10,7 @@ type User struct {
 	IsLocked           bool
 	IsAdmin            bool
 	Score              int
+	CurrentLevel       uint
 }
 
 type UsersPaginated struct {
