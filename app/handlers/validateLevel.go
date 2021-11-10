@@ -38,7 +38,6 @@ func ValidateLevel(w http.ResponseWriter, r *http.Request) {
 	}
 
 	level := levelRepo.GetLevel(int(uls.LevelID))
-
 	commands := []data.Command{}
 	err = json.Unmarshal([]byte(uls.UserSolution), &commands)
 	if err != nil {
@@ -58,12 +57,22 @@ func ValidateLevel(w http.ResponseWriter, r *http.Request) {
 	if uls.IsSolved = isValidSolution(lvlMap, commands); uls.IsSolved {
 		uls.Score = getScore(level, uls.Time, commands)
 		levelStateRepo.UpdateLevelState(uls)
+		authUserId := r.Header.Get("AuthProviderUserId")
+
+		user := userRepository.Get(authUserId)
+		user.CurrentLevel = level.Level + 1
+		user.Score += uls.Score
+		if err := userRepository.Update(user); err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 	}
 
 	msg, err := json.Marshal(uls)
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -79,9 +88,9 @@ type PlayerPosition struct {
 func findPlayerPosition(lvlMap [][]int) PlayerPosition {
 	for i := 0; i < len(lvlMap); i++ {
 		for j := 0; j < len(lvlMap); j++ {
-		   if lvlMap[i][j] == 1 {
-			return PlayerPosition{i, j}
-		   }
+			if lvlMap[i][j] == 1 {
+				return PlayerPosition{i, j}
+			}
 		}
 	}
 	return PlayerPosition{0, 0}
@@ -114,9 +123,6 @@ func isValidSolution(lvlMap [][]int, solution []data.Command) bool {
 				}
 			}
 		}
-
-		fmt.Println(lvlMap[ps.Y][ps.X])
-
 		if lvlMap[ps.Y][ps.X] == 3 {
 			return true
 		}
@@ -126,7 +132,7 @@ func isValidSolution(lvlMap [][]int, solution []data.Command) bool {
 }
 
 func move(ps *PlayerPosition, m data.Move, lvlMap [][]int) {
-	if canMove(ps.X, ps.Y, m, lvlMap) && lvlMap[ps.Y+m.Y][ps.X+m.X] != 2 {
+	if canMove(ps.X, ps.Y, m, lvlMap) {
 		ps.X += m.X
 		ps.Y += m.Y
 	}
@@ -137,7 +143,7 @@ func getScore(lvl *data.Level, time int, commands []data.Command) int {
 }
 
 func canMove(px int, py int, m data.Move, lvlMap [][]int) bool {
-	return px+m.X < len(lvlMap[0]) && px+m.X > 0 && py+m.Y >= 0 && py+m.Y < len(lvlMap)
+	return px+m.X < len(lvlMap[0]) && px+m.X > 0 && py+m.Y >= 0 && py+m.Y < len(lvlMap) && lvlMap[py+m.Y][px+m.X] != 2
 }
 
 func getMovement(movementID int, m *data.Move) {
