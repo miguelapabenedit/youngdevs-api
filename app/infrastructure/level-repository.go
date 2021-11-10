@@ -35,3 +35,10 @@ func (r *levelRepo) GetAllLevels() *[]data.Level {
 
 	return &level
 }
+
+func (r *levelRepo) Exist(level uint) bool {
+
+	result := db.Where("level = ?", level).First(&data.Level{})
+
+	return result.Error == nil
+}

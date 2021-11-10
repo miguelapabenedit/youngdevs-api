@@ -43,7 +43,7 @@ func GetLevelState(w http.ResponseWriter, r *http.Request) {
 
 	err = userLevelStateRepo.GetLevelState(userLevelState)
 
-	if err != nil {
+	if err != nil && levelRepo.Exist(userLevelState.LevelID) {
 		if err = userLevelStateRepo.CreateLevelState(userLevelState); err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return

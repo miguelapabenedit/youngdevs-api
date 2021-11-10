@@ -21,6 +21,7 @@ func NewValidateLevel(lsrepo repository.UserLevelState, lrepo repository.GetLeve
 }
 
 func ValidateLevel(w http.ResponseWriter, r *http.Request) {
+	authUserId := r.Header.Get("AuthProviderUserId")
 	uls := &data.UserLevelState{}
 	bodyContent, err := ioutil.ReadAll(r.Body)
 
@@ -38,6 +39,16 @@ func ValidateLevel(w http.ResponseWriter, r *http.Request) {
 	}
 
 	level := levelRepo.GetLevel(int(uls.LevelID))
+	user := userRepository.Get(authUserId)
+
+	suls := &data.UserLevelState{UserID: user.ID, LevelID: level.Level}
+	err = userLevelStateRepo.GetLevelState(suls)
+	if err != nil {
+		fmt.Print(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
 	commands := []data.Command{}
 	err = json.Unmarshal([]byte(uls.UserSolution), &commands)
 	if err != nil {
@@ -57,14 +68,20 @@ func ValidateLevel(w http.ResponseWriter, r *http.Request) {
 	if uls.IsSolved = isValidSolution(lvlMap, commands); uls.IsSolved {
 		uls.Score = getScore(level, uls.Time, commands)
 		levelStateRepo.UpdateLevelState(uls)
-		authUserId := r.Header.Get("AuthProviderUserId")
+		if !suls.IsSolved {
+			user.Score += uls.Score
 
-		user := userRepository.Get(authUserId)
-		user.CurrentLevel = level.Level + 1
-		user.Score += uls.Score
-		if err := userRepository.Update(user); err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			return
+			next := level.Level + 1
+			if levelRepo.Exist(next) {
+				user.CurrentLevel = next
+			}
+
+			if err := userRepository.Update(user); err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				return
+			}
+		} else {
+			uls.Score = suls.Score
 		}
 	}
 
