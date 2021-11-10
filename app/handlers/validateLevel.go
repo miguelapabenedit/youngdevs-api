@@ -76,8 +76,19 @@ type PlayerPosition struct {
 	Y int
 }
 
+func findPlayerPosition(lvlMap [][]int) PlayerPosition {
+	for i := 0; i < len(lvlMap); i++ {
+		for j := 0; j < len(lvlMap); j++ {
+		   if lvlMap[i][j] == 1 {
+			return PlayerPosition{i, j}
+		   }
+		}
+	}
+	return PlayerPosition{0, 0}
+}
+
 func isValidSolution(lvlMap [][]int, solution []data.Command) bool {
-	ps := PlayerPosition{0, 0}
+	ps := findPlayerPosition(lvlMap)
 	for _, v := range solution {
 		m := data.Move{}
 		getMovement(v.ID, &m)
@@ -103,6 +114,8 @@ func isValidSolution(lvlMap [][]int, solution []data.Command) bool {
 				}
 			}
 		}
+
+		fmt.Println(lvlMap[ps.Y][ps.X])
 
 		if lvlMap[ps.Y][ps.X] == 3 {
 			return true
