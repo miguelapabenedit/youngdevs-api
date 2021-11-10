@@ -58,33 +58,33 @@ func seed() {
 	lvl1 := data.Level{
 		Name:              "First Level",
 		Level:             1,
-		NumberOfColumns:   5,
-		NumberOfRows:      5,
+		NumberOfColumns:   9,
+		NumberOfRows:      9,
 		AvailableCommands: "[0,1,2,3]",
 		IsPremium:         false,
 		BestSolution:      5,
 		BestTimeA:         6,
 		BestTimeB:         15,
 		BestTimeC:         30,
-		Map:               "[[1,0,2,0,0],[0,0,2,0,0],[0,0,0,3,0],[0,0,2,0,0],[0,0,2,0,0]]",
+		Map:               "[[2,2,2,2,2,2,2,2,2],[2,2,2,2,2,2,2,2,2],[2,2,1,0,0,0,2,2,2],[2,2,2,0,0,0,2,2,2],[2,2,2,2,0,0,0,2,2],[2,2,2,2,2,0,0,2,2],[2,2,2,2,2,2,3,2,2],[2,2,2,2,2,2,2,2,2],[2,2,2,2,2,2,2,2,2]]",
 	}
 	lvl2 := data.Level{
 		Name:              "Second Level",
 		Level:             2,
-		NumberOfColumns:   5,
-		NumberOfRows:      5,
+		NumberOfColumns:   9,
+		NumberOfRows:      9,
 		AvailableCommands: "[0,1,2,3,4,6,7]",
 		IsPremium:         false,
-		Map:               "[[1,0,2,0,0],[0,0,0,0,0],[2,0,0,3,0],[0,0,2,0,0],[0,0,0,0,0]]",
+		Map:               "[[2,2,2,2,2,2,2,2,2],[2,2,2,2,0,2,2,2,2],[2,2,2,0,3,0,2,2,2],[2,2,3,0,2,0,0,2,2],[2,0,0,2,1,0,0,0,2],[2,2,0,0,2,0,0,2,2],[2,2,2,0,0,0,2,2,2],[2,2,2,2,3,2,2,2,2],[2,2,2,2,2,2,2,2,2]]",
 	}
 	lvl3 := data.Level{
 		Name:              "Tirth Level",
 		Level:             3,
-		NumberOfColumns:   5,
-		NumberOfRows:      5,
-		AvailableCommands: "[2]",
+		NumberOfColumns:   9,
+		NumberOfRows:      9,
+		AvailableCommands: "[0,1,2,3,4,6,7,8]",
 		IsPremium:         true,
-		Map:               "[[1,0,0,0,0],[0,0,0,0,0],[0,0,0,3,0],[0,0,0,0,0],[0,0,0,0,0]]",
+		Map:               "[[2,2,2,2,2,2,2,2,2],[2,1,0,0,0,0,0,0,2],[2,2,2,2,2,2,2,0,2],[2,2,0,0,0,0,0,0,2],[2,2,0,2,2,2,2,2,2],[2,2,0,2,0,0,3,2,2],[2,2,0,0,0,3,2,2,2],[2,2,2,2,3,2,2,2,2],[2,2,2,2,2,2,2,2,2]]",
 	}
 
 	db.Create(&lvl1)
