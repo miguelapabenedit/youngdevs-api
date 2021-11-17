@@ -31,6 +31,7 @@ func SetUpPublicRoutes(rootPath string, r *mux.Router, l *log.Logger) {
 	r.HandleFunc(fmt.Sprintf("%s/user", rootPath), handlers.CreateUser).Methods(http.MethodPost)
 	r.HandleFunc(fmt.Sprintf("%s/user", rootPath), handlers.GetUser).Methods(http.MethodGet)
 	r.HandleFunc(fmt.Sprintf("%s/user", rootPath), handlers.UpdateUser).Methods(http.MethodPut)
+	r.HandleFunc(fmt.Sprintf("%s/user/reset/{id}", rootPath), handlers.ResetUser).Methods(http.MethodDelete)
 	r.HandleFunc(fmt.Sprintf("%s/users", rootPath), handlers.GetAllUsers).Methods(http.MethodGet)
 	r.HandleFunc(fmt.Sprintf("%s/users/ranking", rootPath), handlers.GetRanking).Methods(http.MethodGet)
 

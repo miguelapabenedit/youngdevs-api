@@ -6,6 +6,10 @@ type GetUser interface {
 	Get(authProviderId string) *data.User
 }
 
+type GetUserById interface {
+	GetById(id string) *data.User
+}
+
 type CreateUser interface {
 	Create(u *data.User) error
 }
@@ -28,4 +32,5 @@ type User interface {
 	GetAllUsers
 	UpdateUser
 	GetRanking
+	GetUserById
 }

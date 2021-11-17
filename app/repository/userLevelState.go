@@ -18,9 +18,14 @@ type GetAllUserLevelState interface {
 	GetAllUserLevelState(userId int) []data.UserLevelState
 }
 
+type DeleteAllById interface {
+	DeleteAllById(userId uint) error
+}
+
 type UserLevelState interface {
 	GetUserLevelState
 	GetAllUserLevelState
 	CreateUserLevelState
 	UpdateUserLevelState
+	DeleteAllById
 }

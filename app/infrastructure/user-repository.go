@@ -47,6 +47,18 @@ func (r *userRepo) Get(id string) *data.User {
 	return &user
 }
 
+func (r *userRepo) GetById(id string) *data.User {
+	var user data.User
+
+	result := db.Where("id = ?", id).First(&user)
+
+	if result.Error != nil {
+		fmt.Println("An error has ocurred")
+	}
+
+	return &user
+}
+
 func (r *userRepo) GetAllWithPagination(up *data.UsersPaginated) {
 	result := db.Limit(up.PageSize).Offset(up.PageIndex * up.PageSize).Find(&up.Users).Count(&up.TotalCount)
 

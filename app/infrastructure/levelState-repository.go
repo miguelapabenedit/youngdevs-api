@@ -39,6 +39,12 @@ func (r *userLevelStateRepo) GetAllUserLevelState(userId int) []data.UserLevelSt
 	return uls
 }
 
+func (r *userLevelStateRepo) DeleteAllById(userId uint) error {
+	result := db.Where("user_id = ?", userId).Delete(data.UserLevelState{})
+
+	return result.Error
+}
+
 func (r *userLevelStateRepo) UpdateLevelState(u *data.UserLevelState) error {
 	if !u.IsSolved {
 		var uls data.UserLevelState
